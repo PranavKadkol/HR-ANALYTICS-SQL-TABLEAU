@@ -1,0 +1,69 @@
+use [H.R ANALYTICS]
+SELECT*
+INTO DBO.HR_CLEANSED
+FROM DBO.hr_staging;
+
+update DBO.HR_CLEANSED
+set salary = null
+where try_convert(decimal(10,2), salary) < 0;
+update DBO.HR_CLEANSED
+set Experience = null
+where try_convert(int, Experience) < 0;
+
+SELECT COUNT(*) AS Negative_Experience
+FROM dbo.HR_CLEANSED
+WHERE TRY_CONVERT(INT, Experience) < 0;
+
+SELECT COUNT(*) AS Negative_Salary
+FROM dbo.HR_CLEANSED
+WHERE TRY_CONVERT(DECIMAL(12,2), Salary) < 0;
+
+SELECT
+SUM(CASE WHEN Performance IS NULL THEN 1 ELSE 0 END) AS Missing_Performance,
+SUM(CASE WHEN Experience IS NULL THEN 1 ELSE 0 END) AS Missing_Experience,
+SUM(CASE WHEN Salary IS NULL THEN 1 ELSE 0 END) AS Missing_Salary
+FROM dbo.HR_CLEANSED;
+
+SELECT COUNT(*) AS Invalid_Experience
+FROM dbo.HR_CLEANSED
+WHERE Experience IS NOT NULL
+  AND TRY_CONVERT(INT, Experience) IS NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN Experience INT NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN age INT NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN age INT NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN year INT NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN salary DECIMAL(12,2) NULL;
+
+ALTER TABLE dbo.HR_CLEANSED
+ALTER COLUMN Hire_Date DATE NULL;
+
+SELECT
+COLUMN_NAME,
+DATA_TYPE
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'HR_CLEANSED'
+ORDER BY ORDINAL_POSITION;
+
+SELECT
+Job_Level,
+COUNT(*) AS Employee_Count
+FROM dbo.HR_CLEANSED
+GROUP BY Job_Level
+ORDER BY Employee_Count DESC;
+
+SELECT
+Performance,
+COUNT(*) AS Employee_Count
+FROM dbo.HR_CLEANSED
+GROUP BY Performance
+ORDER BY Employee_Count DESC;
