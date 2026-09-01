@@ -1,0 +1,34 @@
+DATA PROFILING NOTES
+
+1. Missing values:
+   - 3,333 records have missing Performance ratings (0.17% of the dataset).
+   - No other columns contain missing values.
+   - Missing Performance ratings will be retained rather than imputed because assigning a rating without supporting evidence could introduce bias.
+
+2. Duplicate records:
+   - No duplicate Employee_ID values were found.
+
+3. Numeric validation:
+   - Minimum Experience was found to be -5, which is considered invalid.
+   - 2,421 records contain negative Experience values.
+   - Minimum Salary was found to be -99,932.00, which is considered invalid.
+   - 3,333 records contain negative Salary values.
+
+4.Age validation:
+  - No values outside the defined valid age range were identified.
+  - Older employees/retired personnel were retained as valid records because employment status does not determine whether an age is valid.
+
+5. Relationship between invalid Experience and Salary values:
+   - Negative Experience and negative Salary records were compared to identify any relationship.
+   - The affected records occur across different employment statuses, including Active, Terminated, and Resigned.
+   - No clear relationship between the invalid values and Employee Status was identified.
+   - Therefore, Status was not considered a valid basis for correcting these values.
+
+6. Relationship between negative Experience and Salary:
+   - Negative Experience and Salary values were examined together.
+   - No consistent relationship or repeated invalid-value pattern was identified.
+   - Most combinations of negative Experience and Salary occur only once or twice.
+   - The invalid values appear to be isolated data-quality issues rather than a systematic pattern.
+
+
+
